@@ -100,7 +100,7 @@ REST_FRAMEWORK = {
 }
 
 
-ROOT_URLCONF = 'urls'
+ROOT_URLCONF = 'project249.urls'
 
 TEMPLATES = [
     {
@@ -120,7 +120,7 @@ TEMPLATES = [
 
 AUTH_USER_MODEL = 'users.Account'
 
-WSGI_APPLICATION = 'wsgi.application'
+WSGI_APPLICATION = 'project249.wsgi.application'
 
 
 # Database
