@@ -27,7 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-5_!^1-tb7^$h5xmjkaa7+rpu6vmy4red$&4n6hev)+%s^n$me('
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['project249.herokuapp.com', '127.0.0.1']
 # simple jwt settings
