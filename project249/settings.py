@@ -33,7 +33,7 @@ ALLOWED_HOSTS = ['project249.herokuapp.com', '127.0.0.1']
 # simple jwt settings
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=24),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
     'ROTATE_REFRESH_TOKENS': False,
     'BLACKLIST_AFTER_ROTATION': True,
@@ -94,7 +94,7 @@ REST_FRAMEWORK = {
 
     'DEFAULT_AUTHENTICATION_CLASSES': (
 
-        #'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     )
 
 }
@@ -127,14 +127,14 @@ WSGI_APPLICATION = 'project249.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': BASE_DIR / 'db.sqlite3',
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 # DATABASES['default'] = dj_database_url.config(default=os.environ['DATABASE_URL'])
-DATABASES['default'] = dj_database_url.parse('postgres://lyixxrxpwsrdhi:b4d46b5bb04ee635331f13a50d12a6bafb440ce4ac56387d77c38bffa6d52b03@ec2-23-20-124-77.compute-1.amazonaws.com:5432/d4a1qtr2ck1b3m', conn_max_age=None)
+# DATABASES['default'] = dj_database_url.parse('postgres://lyixxrxpwsrdhi:b4d46b5bb04ee635331f13a50d12a6bafb440ce4ac56387d77c38bffa6d52b03@ec2-23-20-124-77.compute-1.amazonaws.com:5432/d4a1qtr2ck1b3m', conn_max_age=None)
     # https://pythonrepo.com/repo/jacobian-dj-database-url-python-django-utilities
-
+}
 
 
 # Password validation

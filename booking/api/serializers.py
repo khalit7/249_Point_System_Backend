@@ -3,6 +3,7 @@ from booking.models import *
 
 from booking.api import custom_exceptions as custom_exceptions
 
+from users.api.serializers import CustomerSerializer
 
 import datetime
 
@@ -30,11 +31,20 @@ class ResourceBookingSerializer(serializers.ModelSerializer):
         # if not ... make the new booking
         new_booking = ResourceBooking(customer=customer, resource=resource,
                                       booked_for=booked_for, total_number_of_hours=total_number_of_hours, total_cost=total_cost, booking_date=booking_date)
-        # finally mark the resource as booked in that date
+        # mark the resource as booked in that date
         updated_time_table = f'{int(resource_schedule.time_table,base=2) | int(booked_for,base=2):24b}'
-        serializer = DailyScheduleSerializer(resource_schedule,data={'time_table' : updated_time_table} , partial = True)
-        serializer.is_valid()
-        serializer.save()
+        schedule_serializer = DailyScheduleSerializer(resource_schedule,data={'time_table' : updated_time_table} , partial = True)
+        schedule_serializer.is_valid()
+        #make sure the customer has enough points 
+        if(customer.points<total_cost):
+            raise custom_exceptions.NotEnoughPoints()
+        #else
+        remaining_points = customer.points - total_cost
+        customer_serializer = CustomerSerializer(customer,data={'points':remaining_points})
+        customer_serializer.is_valid()
+        # save everything
+        customer_serializer.save()
+        schedule_serializer.save()
         new_booking.save()
         return new_booking
 

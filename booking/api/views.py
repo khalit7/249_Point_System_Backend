@@ -86,6 +86,11 @@ def bookView(request):
             data['status'] = 'failed'
             data['response message'] = e.default_code
             responseStatus = status.HTTP_400_BAD_REQUEST
+        except custom_exceptions.NotEnoughPoints as e:
+            data['error'] = str(e)
+            data['status'] = 'failed'
+            data['response message'] = e.default_code
+            responseStatus = status.HTTP_400_BAD_REQUEST
         
     else:
         data['error'] = serializer.errors
@@ -94,6 +99,15 @@ def bookView(request):
     
     return Response(data=data,status = responseStatus)
 
+@api_view(['GET'])
+def getAllBookings (request):
+    all_bookings = ResourceBooking.objects.filter(customer=request.user.customer)
+    serializer = ResourceBookingSerializer(all_bookings,many =True)
+    data = serializer.data
+    responseStatus = status.HTTP_200_OK
+
+    return Response(data=date,status=responseStatus)
+    
 @api_view(['GET'])
 def getAllResources(request):
     all_resources  = Resource.objects.filter(is_active=True)

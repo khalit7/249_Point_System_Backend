@@ -7,5 +7,6 @@ urlpatterns = [
     #
     path("checkAvailability/",views.checkAvailabilityView),
     path("allResources/",views.getAllResources),
-    path("book/",views.bookView)
+    path("book/",views.bookView),
+    path("allBookings",views.getAllBookings)
 ]
