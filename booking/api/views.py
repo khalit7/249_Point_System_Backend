@@ -4,6 +4,7 @@ from django.http.response import HttpResponse
 from rest_framework import serializers, status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, authentication_classes
+from rest_framework.generics import GenericAPIView
 
 from booking.models import DailySchedule, Resource, ResourceBooking
 from services.models import CustomerService
@@ -100,6 +101,7 @@ def bookView(request):
     return Response(data=data,status = responseStatus)
 
 @api_view(['GET'])
+@serializer_class
 def getAllBookings (request):
     all_bookings = ResourceBooking.objects.filter(customer=request.user.customer)
     serializer = ResourceBookingSerializer(all_bookings,many =True)
@@ -107,12 +109,22 @@ def getAllBookings (request):
     responseStatus = status.HTTP_200_OK
 
     return Response(data=date,status=responseStatus)
-    
-@api_view(['GET'])
-def getAllResources(request):
-    all_resources  = Resource.objects.filter(is_active=True)
-    serializer = ResourceSerializer(all_resources,many=True)
-    data = serializer.data
-    responseStatus = status.HTTP_200_OK
 
-    return Response(data=data,status=responseStatus)
+class allResource(GenericAPIView):
+    serializer_class = ResourceSerializer
+    def get (self,request):
+        all_resources  = Resource.objects.filter(is_active=True)
+        serializer = ResourceSerializer(all_resources,many=True)
+        data = serializer.data
+        responseStatus = status.HTTP_200_OK
+
+        return Response(data=data,status=responseStatus)
+
+# @api_view(['GET'])
+# def getAllResources(request):
+#     all_resources  = Resource.objects.filter(is_active=True)
+#     serializer = ResourceSerializer(all_resources,many=True)
+#     data = serializer.data
+#     responseStatus = status.HTTP_200_OK
+
+#     return Response(data=data,status=responseStatus)

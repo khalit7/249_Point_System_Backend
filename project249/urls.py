@@ -16,19 +16,33 @@ Including another URLconf
 from django import urls
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework_swagger.views import get_swagger_view
+from rest_framework import permissions
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
 from django.conf.urls import url
 
 from users.api import urls as usersURLs
 from services.api import urls as servicesURLs
 from booking.api import urls as bookingURLs
 
-schema_view = get_swagger_view(title='API')
+schema_view = get_schema_view(
+    openapi.Info(
+        title="API",
+        default_version='v1',
+        description="Test description",
+        terms_of_service="https://www.google.com/policies/terms/",
+        contact=openapi.Contact(email="contact@snippets.local"),
+        license=openapi.License(name="BSD License"),
+    ),
+    public=True,
+    permission_classes=(permissions.AllowAny,),
+)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # swagger
-    url('swagger/', schema_view),
+    # openAPI swagger
+    path('swagger/', schema_view.with_ui('swagger',
+                                         cache_timeout=0), name='schema-swagger-ui'),
     # users app api urls
     path("api/users/", include(usersURLs)),
     # services app api urls
