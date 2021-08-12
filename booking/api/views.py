@@ -39,7 +39,7 @@ class checkAvailability(ListAPIView):
             availability = {}
             for day in dailyschedule:
                 availability[day.date] = day.time_table
-            all_resources_availability.append({"name": resource.name, "capacity": resource.capacity,
+            all_resources_availability.append({"name": resource.name, "id":resource.id, "capacity": resource.capacity,
                                             "price_per_hour": resource.price_per_hour, "availability": availability})
         data['resources availability'] = all_resources_availability
         data['status'] = "success"
@@ -60,7 +60,7 @@ def bookView(request):
     data = {}
     serializer = ResourceBookingSerializer(data=request.data, partial=True)
     if serializer.is_valid():
-        customer = Customer.objects.get(id=1)  # request.user.customer
+        customer = Customer.objects.get(id=request.user.customer.id)  # request.user.customer
         try:
             serializer.save(customer=customer)
             data['booked_for'] = serializer.validated_data['booked_for']

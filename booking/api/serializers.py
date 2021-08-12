@@ -40,7 +40,7 @@ class ResourceBookingSerializer(serializers.ModelSerializer):
             raise custom_exceptions.NotEnoughPoints()
         #else
         remaining_points = customer.points - total_cost
-        customer_serializer = CustomerSerializer(customer,data={'points':remaining_points})
+        customer_serializer = CustomerSerializer(customer,data={'points':remaining_points},partial=True)
         customer_serializer.is_valid()
         # save everything
         customer_serializer.save()
