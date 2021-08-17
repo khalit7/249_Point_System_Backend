@@ -8,7 +8,22 @@ from users.api.serializers import CustomerSerializer
 import datetime
 
 
+class ResourceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Resource
+        fields = '__all__'
+
+class DailyScheduleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DailySchedule
+        fields = '__all__'
+    
+    def update(self, instance, validated_data):
+        instance.time_table = validated_data.get('time_table',instance.time_table)
+        instance.save()
+        return instance
 class ResourceBookingSerializer(serializers.ModelSerializer):
+    resource = ResourceSerializer(read_only=True)
     class Meta:
         model = ResourceBooking
         fields = '__all__'
@@ -47,19 +62,3 @@ class ResourceBookingSerializer(serializers.ModelSerializer):
         schedule_serializer.save()
         new_booking.save()
         return new_booking
-
-
-class ResourceSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Resource
-        fields = '__all__'
-
-class DailyScheduleSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = DailySchedule
-        fields = '__all__'
-    
-    def update(self, instance, validated_data):
-        instance.time_table = validated_data.get('time_table',instance.time_table)
-        instance.save()
-        return instance

@@ -93,7 +93,10 @@ def getAllBookings(request):
     all_bookings = ResourceBooking.objects.filter(
         customer=request.user.customer)
     serializer = ResourceBookingSerializer(all_bookings, many=True)
-    data = serializer.data
+    data = {}
+    data['all_bookings'] = serializer.data
+    data['status'] = "sucess"
+    data['response message'] = "successfully retrived all bookings"
     responseStatus = status.HTTP_200_OK
 
     return Response(data=data, status=responseStatus)
