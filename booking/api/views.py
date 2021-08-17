@@ -62,11 +62,11 @@ def bookView(request):
     if serializer.is_valid():
         customer = Customer.objects.get(id=request.user.customer.id)  # request.user.customer
         try:
-            serializer.save(customer=customer,resource=request.data['resource'])
-            data['resource'] = ResourceSerializer(data['resource']).data
+            resource = Resource.objects.get(id= request.data['resource'])
+            serializer.save(customer=customer,resource=resource)
+            data['resource'] = ResourceSerializer(resource).data
             data['booked_for'] = serializer.validated_data['booked_for']
             data['date'] = serializer.validated_data['booking_date']
-            data['resource'] = serializer.validated_data['resource'].name
             data['status'] = 'success'
             data['response message'] = 'successfully requested the booking'
             responseStatus = status.HTTP_200_OK
