@@ -23,13 +23,13 @@ class DailyScheduleSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 class ResourceBookingSerializer(serializers.ModelSerializer):
-    resource_serializer = ResourceSerializer(read_only=True)
+    resource = ResourceSerializer(read_only=True)
     class Meta:
         model = ResourceBooking
         fields = '__all__'
 
     def create(self, validated_data):
-        resource = validated_data['resource']
+        resource = Resource.objects.get(id=validated_data['resource'])
         resource_price_per_hour = resource.price_per_hour
         booked_for = validated_data['booked_for']
         booking_date = validated_data['booking_date']

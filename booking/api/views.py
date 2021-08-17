@@ -62,7 +62,8 @@ def bookView(request):
     if serializer.is_valid():
         customer = Customer.objects.get(id=request.user.customer.id)  # request.user.customer
         try:
-            serializer.save(customer=customer)
+            serializer.save(customer=customer,resource=request.data['resource'])
+            data['resource'] = ResourceSerializer(data['resource']).data
             data['booked_for'] = serializer.validated_data['booked_for']
             data['date'] = serializer.validated_data['booking_date']
             data['resource'] = serializer.validated_data['resource'].name
