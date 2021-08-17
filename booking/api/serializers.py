@@ -23,7 +23,7 @@ class DailyScheduleSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 class ResourceBookingSerializer(serializers.ModelSerializer):
-    resource = ResourceSerializer(read_only=True)
+    resource_serializer = ResourceSerializer(read_only=True)
     class Meta:
         model = ResourceBooking
         fields = '__all__'
