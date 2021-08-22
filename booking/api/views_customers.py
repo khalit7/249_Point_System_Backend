@@ -90,7 +90,7 @@ def bookView(request):
 
 
 @api_view(['GET'])
-def getAllBookings(request):
+def AllBookings(request):
     all_bookings = ResourceBooking.objects.filter(
         customer=request.user.customer)
     serializer = ResourceBookingSerializer(all_bookings, many=True)

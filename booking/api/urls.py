@@ -1,12 +1,14 @@
 from django.urls import path
-from booking.api import views
+from booking.api import views_customers , views_admins
 
 
 urlpatterns = [
-    path("", views.testView),
-    #
-    path("checkAvailability/",views.checkAvailability.as_view()),
-    path("allResources/",views.allResource.as_view()),
-    path("book/",views.bookView),
-    path("allBookings/",views.getAllBookings)
+    path("", views_customers.testView),
+    # customer views
+    path("checkAvailability/",views_customers.checkAvailability.as_view()),
+    path("allResources/",views_customers.allResource.as_view()),
+    path("book/",views_customers.bookView),
+    path("allBookings/",views_customers.AllBookings),
+    # admin views
+    path("allBookingsAdmin/",views_admins.allBookingsAdmin.as_view()),
 ]
